@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/back_block">
+
+        <TextView
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textSize="25dp"
+            android:text="Select table"
+
+            />
+        <Spinner
+            android:id="@+id/spinner_view_cart"
+            android:textStyle="bold"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#fff"
+
+            android:textSize="20dp"
+            android:text="order"/>
+    </LinearLayout>
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="380dp"
+        android:orientation="vertical"
+        android:background="@drawable/back_block">
+        <ProgressBar
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar_view_cart"/>
+
+        <ListView android:layout_width="match_parent"
+            android:layout_height="380dp"
+            android:id="@+id/list_view_cart"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </LinearLayout>
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:background="@drawable/back_block">
+        <RelativeLayout
+            android:layout_width="200dp"
+            android:layout_height="match_parent">
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:orientation="horizontal"
+                android:background="@drawable/back_block">
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:textSize="30dp"
+                    android:text="Amount"
+                    android:id="@+id/TOTAL_amount"
+                     />
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#fff"
+                    android:paddingLeft="5dp"
+                    android:textSize="30dp"
+                    android:id="@+id/holder"
+                    android:text="/="
+                   />
+
+
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <Button
+            android:layout_gravity="center"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textColor="#fff"
+            android:text="Checkout"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:background="@drawable/back"
+            android:id="@+id/btnCheckout"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CLEAR TABLE"
+        android:textSize="25dp"
+        android:id="@+id/clear_a_table"
+        android:textStyle="bold"
+        android:background="#8b0803"
+        android:textColor="#fff"/>
+
+</LinearLayout>

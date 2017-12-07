@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#542400">
+
+    <ProgressBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:visibility="gone"/>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/linearItems">
+
+        <GridView
+            android:layout_height="380dp"
+            android:layout_width="match_parent"
+            android:id="@+id/grid_view_cashier"
+            android:verticalSpacing="10dp"
+            android:stretchMode="columnWidth"
+            android:numColumns="1"
+            android:horizontalSpacing="10dp"
+            android:gravity="center"
+            android:columnWidth="90dp"
+            android:layout_margin="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:background="#0e8738"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="CLEAR ORDERS"
+                android:textColor="#fff"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:id="@+id/clear_orders"
+              android:layout_marginBottom="10dp"
+                />
+
+            <Button
+
+                android:background="#c4452c"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="LOGOUT"
+                android:textColor="#fff"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:id="@+id/logout_cashier"
+                android:layout_marginBottom="10dp"
+                />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

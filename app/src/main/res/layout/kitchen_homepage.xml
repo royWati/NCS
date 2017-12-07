@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary">
+
+    <GridView
+        android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:id="@+id/homepage_kitchen_gridview"
+        android:verticalSpacing="10dp"
+        android:stretchMode="columnWidth"
+        android:numColumns="1"
+        android:horizontalSpacing="10dp"
+        android:gravity="center"
+        android:columnWidth="90dp"
+        android:layout_margin="10dp"/>
+
+    <Button
+        android:background="#c4452c"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOGOUT"
+        android:textColor="#fff"
+        android:textSize="25dp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        android:id="@+id/logout_kitchen"
+        android:layout_alignBottom="@+id/homepage_kitchen_gridview"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+</RelativeLayout>

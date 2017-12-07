@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.roywati.ncs">
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <supports-screens android:anyDensity="true" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/icon_image"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".defaults.Splash"
+            android:screenOrientation="portrait">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".defaults.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".waiter.Homepage"
+            android:label="Homepage"
+            android:parentActivityName=".defaults.LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".waiter.MenuCategoryItems"
+            android:label="Menu Items"
+            android:parentActivityName=".waiter.Homepage"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".waiter.MenuSubCategory"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".waiter.SubMenuItems"
+            android:parentActivityName=".waiter.MenuSubCategory"
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".waiter.MenuItems"
+            android:label="@string/title_activity_menu"
+            android:theme="@style/AppTheme"
+            android:noHistory="true"></activity>
+        <activity android:name=".waiter.ViewCart"
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".kitchen.KitchenHomePage"
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".kitchen.KitchenMenuItems"
+            android:label="Kitchen Menu Items"
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".waiter.AddOns"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".waiter.ClearTable"
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".waiter.AddOnMenuCategory"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".kitchen.MenuItemState"
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".waiter.ViewOrders"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cashier.CashierHomepage"
+            android:label="Homepage Cashier"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cashier.cashierViewOrders"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cashier.MakePayment"
+            android:parentActivityName=".cashier.cashierViewOrders"
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cashier.PaidOrders"
+            android:parentActivityName=".cashier.CashierHomepage"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".defaults.PrintActivity"
+            android:noHistory="true"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".cashier.GenerateBill"
+            android:screenOrientation="portrait"/>
+
+    </application>
+
+</manifest>

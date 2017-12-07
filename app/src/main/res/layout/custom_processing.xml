@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<android.support.v7.widget.CardView
+    android:background="@color/colorPrimaryDark"
+    android:id="@+id/cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="12dp"
+    android:elevation="3dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="horizontal" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/choco"
+
+        >
+        <!--<RelativeLayout-->
+
+            <!--android:layout_width="60dp"-->
+            <!--android:layout_height="80dp">-->
+            <!--<TextView-->
+                <!--android:layout_width="40dp"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:id="@+id/menuCategoryId"-->
+                <!--android:text="1"-->
+                <!--android:textSize="30dp"-->
+                <!--android:textColor="@color/darkchoco"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--android:layout_centerHorizontal="true" />-->
+
+        <!--</RelativeLayout>-->
+
+        <LinearLayout
+            android:background="@color/colorPrimaryDark"
+            android:layout_width="280dp"
+            android:layout_height="80dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:visibility="visible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:text="Order No."/>
+                <TextView
+                    android:visibility="visible"
+                    android:id="@+id/order_item_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="25dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorPrimary"
+                    android:text="Order No"/>
+                </LinearLayout>
+
+            <LinearLayout android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:textColor="@color/colorPrimary"
+                    android:id="@+id/table_name_processed"
+                    android:text="Table name. "
+                    android:paddingLeft="5dp"/>
+
+            </LinearLayout>
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="15dp"-->
+                <!--android:textColor="#fff"-->
+                <!--android:visibility="visible"-->
+                <!--android:text="Order no"-->
+                <!--android:id="@+id/orderId_kitchen_item_processing"-->
+                <!--/>-->
+
+        </LinearLayout>
+        <RelativeLayout
+
+            android:layout_width="60dp"
+            android:layout_height="80dp">
+            <ImageView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/processing"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/processing" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</android.support.v7.widget.CardView>

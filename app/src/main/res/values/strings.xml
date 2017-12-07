@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">NCS</string>
+    <string name="menu_cat">Veg</string>
+    <string name="title_activity_menu">Menu</string>
+</resources>
