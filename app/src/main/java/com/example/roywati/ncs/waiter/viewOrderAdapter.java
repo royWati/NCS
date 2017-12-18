@@ -7,53 +7,46 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.example.roywati.ncs.R;
 
-/**
- * Created by Chris on 5/16/2017.
- */
 public class viewOrderAdapter extends BaseAdapter {
-    String[] order,table,status,checkout;
+    public static LayoutInflater inflater = null;
+    String[] checkout;
     Context context;
-    public static LayoutInflater inflater=null;
-    public viewOrderAdapter(Activity activity, String[] order, String[] table, String[] status, String[] checkout){
+    String[] order;
+    String[] status;
+    String[] table;
 
-        this.order=order;
-        this.table=table;
-        this.status=status;
-        this.checkout=checkout;
-        context=activity;
-        inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public viewOrderAdapter(Activity activity, String[] order, String[] table, String[] status, String[] checkout) {
+        this.order = order;
+        this.table = table;
+        this.status = status;
+        this.checkout = checkout;
+        this.context = activity;
+        inflater = (LayoutInflater) this.context.getSystemService("layout_inflater");
     }
-    @Override
+
     public int getCount() {
-        return order.length;
+        return this.order.length;
     }
 
-    @Override
     public Object getItem(int i) {
-        return i;
+        return Integer.valueOf(i);
     }
 
-    @Override
     public long getItemId(int i) {
-        return i;
+        return (long) i;
     }
 
-    @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view=inflater.inflate(R.layout.custom_view_waiter_order,null);
-        TextView id=(TextView)view.findViewById(R.id.order_no);
-        TextView tbl=(TextView)view.findViewById(R.id.table_view_orders);
-        TextView sts=(TextView)view.findViewById(R.id.view_order_status);
-        TextView check=(TextView)view.findViewById(R.id.checkout_time);
-
-        id.setText(order[i]);
-        tbl.setText(table[i]);
-        sts.setText(status[i]);
-        check.setText(checkout[i]);
-
+        view = inflater.inflate(R.layout.custom_view_waiter_order, null);
+        TextView tbl = (TextView) view.findViewById(R.id.table_view_orders);
+        TextView sts = (TextView) view.findViewById(R.id.view_order_status);
+        TextView check = (TextView) view.findViewById(R.id.checkout_time);
+        ((TextView) view.findViewById(R.id.order_no)).setText(this.order[i]);
+        tbl.setText(this.table[i]);
+        sts.setText(this.status[i]);
+        check.setText(this.checkout[i]);
         return view;
     }
 }

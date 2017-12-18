@@ -9,58 +9,44 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.roywati.ncs.R;
 
-/**
- * Created by Chris on 5/17/2017.
- */
-
 public class PaidOrdersAdapter extends BaseAdapter {
-
-    String[] itemName,quantity;
+    public static LayoutInflater inflater = null;
     Context context;
-    public static LayoutInflater inflater=null;
+    String[] itemName;
+    String[] quantity;
     LinearLayout viewColor;
 
-    public PaidOrdersAdapter(Activity activity, String[]itemName, String[]quantity) {
+    public PaidOrdersAdapter(Activity activity, String[] itemName, String[] quantity) {
         this.itemName = itemName;
         this.quantity = quantity;
-        context = activity;
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+        this.context = activity;
+        inflater = (LayoutInflater) this.context.getSystemService("layout_inflater");
     }
 
-
-    @Override
     public int getCount() {
-        return itemName.length;
+        return this.itemName.length;
     }
 
-    @Override
     public Object getItem(int i) {
-        return i;
+        return Integer.valueOf(i);
     }
 
-    @Override
     public long getItemId(int i) {
-        return i;
+        return (long) i;
     }
 
-    @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view=inflater.inflate(R.layout.custom_cashier_view_order,null);
-        TextView id=(TextView)view.findViewById(R.id.order_num_cash);
-        TextView name=(TextView)view.findViewById(R.id.item_price_cash);
-        viewColor=(LinearLayout) view.findViewById(R.id.viewColor);
-        id.setText(itemName[i]);
-        name.setText(quantity[i]);
-
-        if(i%2==0)
-        {
-            viewColor.setBackgroundColor(Color.parseColor("#ffffff"));
+        view = inflater.inflate(R.layout.custom_cashier_view_order, null);
+        TextView id = (TextView) view.findViewById(R.id.order_num_cash);
+        TextView name = (TextView) view.findViewById(R.id.item_price_cash);
+        this.viewColor = (LinearLayout) view.findViewById(R.id.viewColor);
+        id.setText(this.itemName[i]);
+        name.setText(this.quantity[i]);
+        if (i % 2 == 0) {
+            this.viewColor.setBackgroundColor(Color.parseColor("#ffffff"));
         }
-
         return view;
     }
 }

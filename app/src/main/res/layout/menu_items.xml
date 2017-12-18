@@ -5,8 +5,8 @@
     android:background="@color/colorPrimary">
 
     <GridView
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:id="@+id/grid_view_menu_items"
         android:verticalSpacing="5dp"
         android:stretchMode="columnWidth"

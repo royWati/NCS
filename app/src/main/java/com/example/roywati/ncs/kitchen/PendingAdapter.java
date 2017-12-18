@@ -8,50 +8,39 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.example.roywati.ncs.R;
 
-/**
- * Created by Chris on 5/14/2017.
- */
 public class PendingAdapter extends BaseAdapter {
-    String[] orderId,tableName;
     Context context;
     LayoutInflater inflater;
+    String[] orderId;
+    String[] tableName;
 
-
-    public PendingAdapter(Activity activity,String[] orderId,String[] tableName){
-        this.orderId=orderId;
-        this.tableName=tableName;
-        context=activity;
+    public PendingAdapter(Activity activity, String[] orderId, String[] tableName) {
+        this.orderId = orderId;
+        this.tableName = tableName;
+        this.context = activity;
         inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
     }
-    @Override
+
     public int getCount() {
-        return orderId.length;
+        return this.orderId.length;
     }
 
-    @Override
     public Object getItem(int i) {
-        return i;
+        return Integer.valueOf(i);
     }
 
-    @Override
     public long getItemId(int i) {
-        return i;
+        return (long) i;
     }
 
-    @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-
-        view=inflater.inflate(R.layout.custom_pending_orders,null);
-        TextView order=(TextView)view.findViewById(R.id.order_item_no_pending);
-        TextView table=(TextView)view.findViewById(R.id.table_name_pending);
-        ImageView imageView=(ImageView)view.findViewById(R.id.pending);
-
-        order.setText(orderId[i]);
-        table.setText(tableName[i]);
+        view = this.inflater.inflate(R.layout.custom_pending_orders, null);
+        TextView table = (TextView) view.findViewById(R.id.table_name_pending);
+        ImageView imageView = (ImageView) view.findViewById(R.id.pending);
+        ((TextView) view.findViewById(R.id.order_item_no_pending)).setText(this.orderId[i]);
+        table.setText(this.tableName[i]);
         return view;
     }
 }

@@ -1,96 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.roywati.ncs">
-
+    xmlns:tools="http://schemas.android.com/tools"
+    android:versionCode="1" android:versionName="1.0" package="com.example.roywati.ncs" platformBuildVersionCode="25" platformBuildVersionName="7.1.1">
+    <uses-sdk android:minSdkVersion="15" android:targetSdkVersion="25" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <supports-screens android:anyDensity="true" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
-
-    <application
-        android:allowBackup="true"
-        android:icon="@drawable/icon_image"
-        android:label="@string/app_name"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".defaults.Splash"
-            android:screenOrientation="portrait">
-
+    <application android:theme="@style/AppTheme" android:label="@string/app_name" android:icon="@drawable/icon_image"
+        android:debuggable="true" android:allowBackup="true" android:supportsRtl="true"
+        tools:ignore="HardcodedDebugMode">
+        <activity android:name="com.example.roywati.ncs.defaults.Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".defaults.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".waiter.Homepage"
-            android:label="Homepage"
-            android:parentActivityName=".defaults.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".waiter.MenuCategoryItems"
-            android:label="Menu Items"
-            android:parentActivityName=".waiter.Homepage"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".waiter.MenuSubCategory"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".waiter.SubMenuItems"
-            android:parentActivityName=".waiter.MenuSubCategory"
-            android:noHistory="true"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".waiter.MenuItems"
+        <activity android:name="com.example.roywati.ncs.defaults.LoginActivity" />
+        <activity android:label="Homepage" android:name="com.example.roywati.ncs.waiter.Homepage" android:parentActivityName="com.example.roywati.ncs.defaults.LoginActivity" />
+        <activity android:label="Menu Items"
+            android:name="com.example.roywati.ncs.waiter.MenuCategoryItems"
+            android:parentActivityName="com.example.roywati.ncs.waiter.Homepage" />
+        <activity android:name="com.example.roywati.ncs.waiter.MenuSubCategory" />
+        <activity android:name="com.example.roywati.ncs.waiter.SubMenuItems" android:noHistory="true" android:parentActivityName="com.example.roywati.ncs.waiter.MenuSubCategory" />
+        <activity android:theme="@style/AppTheme"
             android:label="@string/title_activity_menu"
-            android:theme="@style/AppTheme"
-            android:noHistory="true"></activity>
-        <activity android:name=".waiter.ViewCart"
-            android:noHistory="true"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".kitchen.KitchenHomePage"
-            android:noHistory="true"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".kitchen.KitchenMenuItems"
-            android:label="Kitchen Menu Items"
-            android:noHistory="true"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".waiter.AddOns"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".waiter.ClearTable"
-            android:noHistory="true"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".waiter.AddOnMenuCategory"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".kitchen.MenuItemState"
-            android:noHistory="true"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".waiter.ViewOrders"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".cashier.CashierHomepage"
-            android:label="Homepage Cashier"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".cashier.cashierViewOrders"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".cashier.MakePayment"
-            android:parentActivityName=".cashier.cashierViewOrders"
-            android:noHistory="true"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".cashier.PaidOrders"
-            android:parentActivityName=".cashier.CashierHomepage"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".defaults.PrintActivity"
-            android:noHistory="true"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".cashier.GenerateBill"
-            android:screenOrientation="portrait"/>
-
+            android:name="com.example.roywati.ncs.waiter.MenuItems"
+            android:noHistory="true" />
+        <activity android:name="com.example.roywati.ncs.waiter.ViewCart" android:noHistory="true" />
+        <activity android:name="com.example.roywati.ncs.kitchen.KitchenHomePage" android:noHistory="true" />
+        <activity android:label="Kitchen Menu Items" android:name="com.example.roywati.ncs.kitchen.KitchenMenuItems" android:noHistory="true" />
+        <activity android:name="com.example.roywati.ncs.waiter.AddOns" />
+        <activity android:name="com.example.roywati.ncs.waiter.ClearTable" android:noHistory="true" />
+        <activity android:name="com.example.roywati.ncs.waiter.AddOnMenuCategory" />
+        <activity android:name="com.example.roywati.ncs.kitchen.MenuItemState" android:noHistory="true" />
+        <activity android:name="com.example.roywati.ncs.waiter.ViewOrders" />
+        <activity android:label="Homepage Cashier" android:name="com.example.roywati.ncs.cashier.CashierHomepage" />
+        <activity android:name="com.example.roywati.ncs.cashier.cashierViewOrders" />
+        <activity android:name="com.example.roywati.ncs.cashier.MakePayment" android:noHistory="true" android:parentActivityName="com.example.roywati.ncs.cashier.cashierViewOrders" />
+        <activity android:name="com.example.roywati.ncs.cashier.PaidOrders" android:parentActivityName="com.example.roywati.ncs.cashier.CashierHomepage" />
+        <activity android:name="com.example.roywati.ncs.defaults.PrintActivity" android:noHistory="true" />
+        <activity android:name="com.example.roywati.ncs.cashier.GenerateBill" />
     </application>
-
 </manifest>

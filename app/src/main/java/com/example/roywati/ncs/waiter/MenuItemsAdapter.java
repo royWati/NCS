@@ -2,85 +2,68 @@ package com.example.roywati.ncs.waiter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.roywati.ncs.R;
 
-/**
- * Created by Chris on 5/9/2017.
- */
-public class MenuItemsAdapter extends RecyclerView.Adapter<MenuItemsAdapter.ListViewHolder> {
-
-    String[] itemName,itemId,itemPrice,itemDescr;
+public class MenuItemsAdapter extends Adapter<MenuItemsAdapter.ListViewHolder> {
     Context context;
-    LayoutInflater inflater;
+    LayoutInflater inflater = LayoutInflater.from(this.context);
+    String[] itemDescr;
+    String[] itemId;
+    String[] itemName;
+    String[] itemPrice;
 
-    public MenuItemsAdapter(Activity activity,String[]itemName,String[]itemId,String[]itemPrice,String[]itemDescr){
+    public class ListViewHolder extends ViewHolder {
+        ImageView cart_item;
+        TextView item_descr;
+        TextView item_price;
+        TextView menuItemId;
+        TextView menuItemName;
 
-        this.itemId=itemId;
-        this.itemPrice=itemPrice;
-        this.itemName=itemName;
-        this.itemDescr=itemDescr;
-        context=activity;
-        inflater=LayoutInflater.from(context);
-
+        public ListViewHolder(View itemView) {
+            super(itemView);
+            this.menuItemName = (TextView) itemView.findViewById(R.id.menu_cart_item_name);
+            this.menuItemId = (TextView) itemView.findViewById(R.id.menuitemcart_id);
+            this.item_descr = (TextView) itemView.findViewById(R.id.item_Descr_info);
+            this.item_price = (TextView) itemView.findViewById(R.id.item_price);
+            this.cart_item = (ImageView) itemView.findViewById(R.id.add_menu_item_cart);
+        }
     }
 
-
-    @Override
-    public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType)
-    {
-        View contentView=inflater.inflate(R.layout.custom_menu_items,parent,false);
-        ListViewHolder viewHolder=new ListViewHolder(contentView);
-        return viewHolder;
-
+    public MenuItemsAdapter(Activity activity, String[] itemName, String[] itemId, String[] itemPrice, String[] itemDescr) {
+        this.itemId = itemId;
+        this.itemPrice = itemPrice;
+        this.itemName = itemName;
+        this.itemDescr = itemDescr;
+        this.context = activity;
     }
 
-    @Override
+    public ListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ListViewHolder(this.inflater.inflate(R.layout.custom_menu_items, parent, false));
+    }
+
     public void onBindViewHolder(final ListViewHolder holder, int position) {
-        holder.menuItemId.setText(itemId[position]);
-        holder.item_descr.setText(itemDescr[position]);
-        holder.menuItemName.setText(itemName[position]);
-        holder.item_price.setText(itemPrice[position]);
-
-        holder.cart_item.setOnClickListener(new View.OnClickListener() {
-            @Override
+        holder.menuItemId.setText(this.itemId[position]);
+        holder.item_descr.setText(this.itemDescr[position]);
+        holder.menuItemName.setText(this.itemName[position]);
+        holder.item_price.setText(this.itemPrice[position]);
+        holder.cart_item.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
-                AppConfig.menuCatId=holder.menuItemId.getText().toString();
-                Toast.makeText(context,AppConfig.menuCatId,Toast.LENGTH_SHORT).show();
+                AppConfig.menuCatId = holder.menuItemId.getText().toString();
+                Toast.makeText(MenuItemsAdapter.this.context, AppConfig.menuCatId, 0).show();
             }
         });
     }
 
-
-    @Override
     public int getItemCount() {
-        return itemId.length;
-    }
-    public class ListViewHolder extends RecyclerView.ViewHolder
-    {
-        TextView menuItemName,menuItemId,item_descr,item_price;
-        ImageView cart_item;
-
-
-        public ListViewHolder(View itemView)
-        {
-            super(itemView);
-            menuItemName=(TextView)itemView.findViewById(R.id.menu_cart_item_name);
-            menuItemId=(TextView)itemView.findViewById(R.id.menuitemcart_id);
-            item_descr=(TextView)itemView.findViewById(R.id.item_Descr_info);
-            item_price=(TextView)itemView.findViewById(R.id.item_price);
-           cart_item=(ImageView)itemView.findViewById(R.id.add_menu_item_cart);
-
-
-        }
-
-
+        return this.itemId.length;
     }
 }

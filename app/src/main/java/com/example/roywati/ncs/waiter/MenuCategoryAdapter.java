@@ -9,56 +9,42 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import com.example.roywati.ncs.R;
 
-/**
- * Created by Chris on 5/8/2017.
- */
 public class MenuCategoryAdapter extends BaseAdapter {
-    String[] menuCatName,menuCatId;
-
+    public static LayoutInflater inflater = null;
     Context context;
-    public static LayoutInflater inflater=null;
+    String[] menuCatId;
+    String[] menuCatName;
 
-    public MenuCategoryAdapter(Activity activity,String[]menuCatName,String[]menuCatId){
-        this.menuCatName=menuCatName;
-        this.menuCatId=menuCatId;
-        context=activity;
-        inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
+    public MenuCategoryAdapter(Activity activity, String[] menuCatName, String[] menuCatId) {
+        this.menuCatName = menuCatName;
+        this.menuCatId = menuCatId;
+        this.context = activity;
+        inflater = (LayoutInflater) this.context.getSystemService("layout_inflater");
     }
-    @Override
+
     public int getCount() {
-        return menuCatId.length;
+        return this.menuCatId.length;
     }
 
-    @Override
     public Object getItem(int i) {
-        return i;
+        return Integer.valueOf(i);
     }
 
-    @Override
     public long getItemId(int i) {
-        return i;
+        return (long) i;
     }
 
-    @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-
-        view=inflater.inflate(R.layout.custom_menu_category,null);
-        TextView id=(TextView)view.findViewById(R.id.menuCategoryId);
-        TextView name=(TextView)view.findViewById(R.id.menuCategoryName);
-        LinearLayout layout=(LinearLayout)view.findViewById(R.id.lau);
-
-        id.setText(menuCatId[i]);
-        name.setText(menuCatName[i]);
-
-        if(i%2==0){
+        view = inflater.inflate(R.layout.custom_menu_category, null);
+        TextView name = (TextView) view.findViewById(R.id.menuCategoryName);
+        LinearLayout layout = (LinearLayout) view.findViewById(R.id.lau);
+        ((TextView) view.findViewById(R.id.menuCategoryId)).setText(this.menuCatId[i]);
+        name.setText(this.menuCatName[i]);
+        if (i % 2 == 0) {
             layout.setBackgroundColor(Color.parseColor("#c69577"));
-        //    price.setTextColor(Color.parseColor("#542400"));
         }
-
         return view;
     }
 }

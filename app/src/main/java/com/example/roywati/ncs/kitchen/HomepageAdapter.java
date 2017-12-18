@@ -7,49 +7,38 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-
 import com.example.roywati.ncs.R;
 
-/**
- * Created by Chris on 5/13/2017.
- */
 public class HomepageAdapter extends BaseAdapter {
-
-    String[] sub_catId,sub_catName;
+    public static LayoutInflater inflater = null;
     Context context;
-    public static LayoutInflater inflater=null;
-    public HomepageAdapter(Activity activity,String[]sub_catId,String[]sub_catName){
-        this.sub_catId=sub_catId;
-        this.sub_catName=sub_catName;
-        context=activity;
-        inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    String[] sub_catId;
+    String[] sub_catName;
 
+    public HomepageAdapter(Activity activity, String[] sub_catId, String[] sub_catName) {
+        this.sub_catId = sub_catId;
+        this.sub_catName = sub_catName;
+        this.context = activity;
+        inflater = (LayoutInflater) this.context.getSystemService("layout_inflater");
     }
 
-    @Override
     public int getCount() {
-        return sub_catId.length;
+        return this.sub_catId.length;
     }
 
-    @Override
     public Object getItem(int i) {
-        return i;
+        return Integer.valueOf(i);
     }
 
-    @Override
     public long getItemId(int i) {
-        return i;
+        return (long) i;
     }
 
-    @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        view=inflater.inflate(R.layout.custom_kitchen_homepage,null);
-        TextView id=(TextView)view.findViewById(R.id.kitchen_homepage_id);
-        TextView name=(TextView)view.findViewById(R.id.kitchen_homepage_name);
-
-        id.setText(sub_catId[i]);
-        name.setText(sub_catName[i]);
-
+        view = inflater.inflate(R.layout.custom_kitchen_homepage, null);
+        TextView name = (TextView) view.findViewById(R.id.kitchen_homepage_name);
+        ((TextView) view.findViewById(R.id.kitchen_homepage_id)).setText(this.sub_catId[i]);
+        name.setText(this.sub_catName[i]);
         return view;
     }
 }
