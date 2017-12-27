@@ -19,7 +19,7 @@ public class SubMenuItemAdapter extends BaseAdapter {
         this.sub_item_Id = sub_item_Id;
         this.sub_item_Name = sub_item_Name;
         this.context = activity;
-        inflater = (LayoutInflater) this.context.getSystemService("layout_inflater");
+        inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {

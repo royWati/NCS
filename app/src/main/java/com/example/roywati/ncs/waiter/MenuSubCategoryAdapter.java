@@ -19,7 +19,7 @@ public class MenuSubCategoryAdapter extends BaseAdapter {
         this.sub_catId = sub_catId;
         this.sub_catName = sub_catName;
         this.context = activity;
-        inflater = (LayoutInflater) this.context.getSystemService("layout_inflater");
+        inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {

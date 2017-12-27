@@ -23,7 +23,7 @@ public class viewOrderAdapter extends BaseAdapter {
         this.status = status;
         this.checkout = checkout;
         this.context = activity;
-        inflater = (LayoutInflater) this.context.getSystemService("layout_inflater");
+        inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     public int getCount() {
