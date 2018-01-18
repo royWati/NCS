@@ -1,7 +1,7 @@
 package com.example.roywati.ncs.waiter;
 
 public class AppConfig {
-    public static String protocal = "http://nagalaske.co.ke/";
+    public static String protocal = "http://system.nagalaske.co.ke/";
     public static String hostname = "app/";
 
 
