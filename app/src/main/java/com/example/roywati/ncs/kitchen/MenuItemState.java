@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
 import com.example.roywati.ncs.waiter.AppConfig;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,22 +40,24 @@ public class MenuItemState extends Activity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("orderId", AppConfigKitchen.selectedKitchenOrder));
-            jsonObjectData.add(new BasicNameValuePair("homepageId", AppConfigKitchen.homepageId));
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigKitchen.change_order_state, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data", jsonObjectResponse.toString());
-            Log.d("home page id", AppConfigKitchen.homepageId);
-            Log.d("data", AppConfig.protocal + AppConfig.hostname + AppConfigKitchen.change_order_state);
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("orderId", AppConfigKitchen.selectedKitchenOrder));
+                jsonObjectData.add(new BasicNameValuePair("homepageId", AppConfigKitchen.homepageId));
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigKitchen.change_order_state, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data", jsonObjectResponse.toString());
+                Log.d("home page id", AppConfigKitchen.homepageId);
+                Log.d("data", AppConfig.protocal + AppConfig.hostname + AppConfigKitchen.change_order_state);
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 if (success == 1) {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                successState=500;
             }
             return null;
         }
@@ -65,6 +68,8 @@ public class MenuItemState extends Activity {
                 MenuItemState.this.startActivity(new Intent(MenuItemState.this, KitchenHomePage.class));
                 Toast.makeText(MenuItemState.this.getApplicationContext(), this.serverMessage, 1).show();
                 return;
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             }
             Toast.makeText(MenuItemState.this.getApplicationContext(), this.serverMessage, 1).show();
         }
@@ -113,7 +118,7 @@ public class MenuItemState extends Activity {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                successState=500;
             }
             return null;
         }
@@ -122,6 +127,8 @@ public class MenuItemState extends Activity {
             super.onPostExecute(s);
             if (this.successState == 1) {
                 MenuItemState.this.listView.setAdapter(new MenuItemSelectedAdapter(MenuItemState.this, AppConfigKitchen.menuitemname, AppConfigKitchen.quantity));
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             } else {
                 Toast.makeText(MenuItemState.this.getApplicationContext(), this.serverMessage, 1).show();
             }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
 import com.example.roywati.ncs.defaults.PrintActivity;
 import com.example.roywati.ncs.waiter.AppConfig;
 import java.util.ArrayList;
@@ -42,12 +43,14 @@ public class PaidOrders extends AppCompatActivity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigCashier.get_paid_orders, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data", jsonObjectResponse.toString());
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigCashier.get_paid_orders, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data", jsonObjectResponse.toString());
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 AppConfigCashier.total = jsonObjectResponse.getString("total");
@@ -67,7 +70,7 @@ public class PaidOrders extends AppCompatActivity {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+              successState=500;
             }
             return null;
         }
@@ -83,6 +86,8 @@ public class PaidOrders extends AppCompatActivity {
                         PaidOrders.this.startActivity(new Intent(PaidOrders.this, PrintActivity.class));
                     }
                 });
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             } else {
                 Toast.makeText(PaidOrders.this.getApplicationContext(), this.serverMessage, 1).show();
             }

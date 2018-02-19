@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
 import com.example.roywati.ncs.defaults.PrintActivity;
 import com.example.roywati.ncs.defaults.PrintData;
 import java.util.ArrayList;
@@ -51,21 +52,23 @@ public class ViewCart extends AppCompatActivity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("orderId", AppConfig.orderId));
-            jsonObjectData.add(new BasicNameValuePair("tableId", AppConfig.tableId_selected));
-            jsonObjectData.add(new BasicNameValuePair("userId", AppConfig.userId));
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.checkout_cart, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data sub category", jsonObjectResponse.toString());
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("orderId", AppConfig.orderId));
+                jsonObjectData.add(new BasicNameValuePair("tableId", AppConfig.tableId_selected));
+                jsonObjectData.add(new BasicNameValuePair("userId", AppConfig.userId));
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.checkout_cart, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data sub category", jsonObjectResponse.toString());
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 if (success == 1) {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                successState=500;
             }
             return null;
         }
@@ -80,6 +83,8 @@ public class ViewCart extends AppCompatActivity {
                 AppConfig.clear_a_table_key = false;
                 ViewCart.this.startActivity(new Intent(ViewCart.this, PrintActivity.class));
                 Toast.makeText(ViewCart.this.getApplicationContext(), this.serverMessage, 1).show();
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             } else {
                 Toast.makeText(ViewCart.this.getApplicationContext(), this.serverMessage, 1).show();
             }
@@ -149,7 +154,7 @@ public class ViewCart extends AppCompatActivity {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                successState=500;
             }
             return null;
         }
@@ -180,7 +185,9 @@ public class ViewCart extends AppCompatActivity {
                         }
                     }
                 });
-                Toast.makeText(ViewCart.this.getApplicationContext(), this.serverMessage, 1).show();
+             //   Toast.makeText(ViewCart.this.getApplicationContext(), this.serverMessage, 1).show();
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             } else {
                 Toast.makeText(ViewCart.this.getApplicationContext(), this.serverMessage, 1).show();
             }

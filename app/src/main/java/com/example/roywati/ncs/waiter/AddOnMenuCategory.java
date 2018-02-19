@@ -80,7 +80,7 @@ public class AddOnMenuCategory extends AppCompatActivity {
                         AppConfig.menuCatId = ((TextView) view.findViewById(R.id.menuCategoryId)).getText().toString();
                         AppConfig.menuCatName = txtName.getText().toString();
                         AddOnMenuCategory.this.startActivity(new Intent(AddOnMenuCategory.this, MenuSubCategory.class));
-                        Toast.makeText(AddOnMenuCategory.this.getApplicationContext(), AppConfig.menuCatId, 1).show();
+                   //     Toast.makeText(AddOnMenuCategory.this.getApplicationContext(), AppConfig.menuCatId, 1).show();
                     }
                 });
             } else {

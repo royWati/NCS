@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -38,14 +40,16 @@ public class SubMenuItems extends AppCompatActivity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("sub_menu_item_id", AppConfig.menuSubItem_id));
-            jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
-            Log.d("subMenuItem", AppConfig.menuSubItem_id);
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.get_menu_items, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data", jsonObjectResponse.toString());
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("sub_menu_item_id", AppConfig.menuSubItem_id));
+                jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
+                Log.d("subMenuItem", AppConfig.menuSubItem_id);
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.get_menu_items, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data", jsonObjectResponse.toString());
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 this.MenuItem = jsonObjectResponse.getJSONArray("menu_items");
@@ -70,7 +74,7 @@ public class SubMenuItems extends AppCompatActivity {
                     this.successState = 2;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                successState=500;
             }
             return null;
         }
@@ -79,6 +83,8 @@ public class SubMenuItems extends AppCompatActivity {
             super.onPostExecute(s);
             if (this.successState == 2) {
                 SubMenuItems.this.startActivity(new Intent(SubMenuItems.this, MenuItems.class));
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             } else {
                 Toast.makeText(SubMenuItems.this.getApplicationContext(), this.serverMessage, 1).show();
             }

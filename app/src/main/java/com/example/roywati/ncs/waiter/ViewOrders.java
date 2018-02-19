@@ -9,6 +9,8 @@ import android.widget.ListView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -34,12 +36,14 @@ public class ViewOrders extends AppCompatActivity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("userId", AppConfig.userId));
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.view_waiter_orders, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data", jsonObjectResponse.toString());
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("userId", AppConfig.userId));
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.view_waiter_orders, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data", jsonObjectResponse.toString());
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 this.waiterOrders = jsonObjectResponse.getJSONArray("waiter_orders");
@@ -64,7 +68,7 @@ public class ViewOrders extends AppCompatActivity {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                successState=500;
             }
             return null;
         }
@@ -72,8 +76,12 @@ public class ViewOrders extends AppCompatActivity {
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
             if (this.successState == 1) {
-                ViewOrders.this.listView.setAdapter(new viewOrderAdapter(ViewOrders.this, AppConfig.ordersids, AppConfig.tablesnames, AppConfig.statustypes, AppConfig.checkoutTimes));
-            } else {
+                ViewOrders.this.listView.setAdapter(
+                        new viewOrderAdapter(ViewOrders.this, AppConfig.ordersids, AppConfig.tablesnames,
+                                AppConfig.statustypes, AppConfig.checkoutTimes));
+            }else if (successState==500){
+                Toast.makeText(ViewOrders.this.getApplicationContext(), "Network error!!",Toast.LENGTH_SHORT).show();
+            }else {
                 Toast.makeText(ViewOrders.this.getApplicationContext(), this.serverMessage, 1).show();
             }
             ViewOrders.this.showProgress(false);

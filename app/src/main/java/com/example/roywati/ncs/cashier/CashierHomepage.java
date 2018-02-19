@@ -1,8 +1,10 @@
 package com.example.roywati.ncs.cashier;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -18,13 +20,18 @@ import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
 import com.example.roywati.ncs.defaults.LoginActivity;
+import com.example.roywati.ncs.defaults.NoDataException;
 import com.example.roywati.ncs.defaults.PrintData;
+import com.example.roywati.ncs.kitchen.KitchenHomePage;
 import com.example.roywati.ncs.waiter.AppConfig;
+import com.example.roywati.ncs.waiter.ViewOrders;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class CashierHomepage extends AppCompatActivity {
@@ -46,22 +53,23 @@ public class CashierHomepage extends AppCompatActivity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("userId", AppConfig.userId));
-            jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigCashier.close_orders, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("orderId and menuCatId", AppConfig.orderId + " " + AppConfig.menuCatId);
-            Log.e("amountGiven", AppConfigCashier.amountGivenToCashier);
-            Log.e("userId", AppConfig.userId);
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("userId", AppConfig.userId));
+                jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigCashier.close_orders, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("orderId and menuCatId", AppConfig.orderId + " " + AppConfig.menuCatId);
+                Log.e("amountGiven", AppConfigCashier.amountGivenToCashier);
+                Log.e("userId", AppConfig.userId);
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 if (success == 1) {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+               successState=500;
             }
             return null;
         }
@@ -70,7 +78,9 @@ public class CashierHomepage extends AppCompatActivity {
             super.onPostExecute(s);
             Log.d("successState", String.valueOf(this.successState));
             if (this.successState == 1) {
-                Toast.makeText(CashierHomepage.this, this.serverMessage, 1).show();
+            //    Toast.makeText(CashierHomepage.this, this.serverMessage, 1).show();
+            }else if(successState==500){
+                Toast.makeText(CashierHomepage.this.getApplicationContext(), "Network Error!!", 1).show();
             } else {
                 Toast.makeText(CashierHomepage.this, this.serverMessage, 1).show();
             }
@@ -128,5 +138,26 @@ public class CashierHomepage extends AppCompatActivity {
         }
         this.linearLayout.setVisibility(0);
         this.prog.setVisibility(8);
+    }
+
+    public void onBackPressed(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        alertDialog.setMessage((CharSequence) "You will be logged out!!");
+        alertDialog.setPositiveButton((CharSequence) "Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(CashierHomepage.this, LoginActivity.class);
+                startActivity(intent);
+
+                finish();
+            }
+        });
+        alertDialog.setNegativeButton((CharSequence) "No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        alertDialog.show();
+
     }
 }

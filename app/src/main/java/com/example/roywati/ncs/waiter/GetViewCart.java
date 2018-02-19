@@ -3,6 +3,8 @@ package com.example.roywati.ncs.waiter;
 import android.os.AsyncTask;
 import android.util.Log;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -22,14 +24,16 @@ public class GetViewCart extends AsyncTask<String, String, String> {
     }
 
     protected String doInBackground(String... strings) {
-        JSONParser jsonParser = new JSONParser();
-        List<NameValuePair> jsonObjectData = new ArrayList();
-        jsonObjectData.add(new BasicNameValuePair("orderId", AppConfig.orderId));
-        jsonObjectData.add(new BasicNameValuePair("tableId", AppConfig.tableId_selected));
-        jsonObjectData.add(new BasicNameValuePair("userId", AppConfig.userId));
-        JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.checkout_cart, HttpGet.METHOD_NAME, jsonObjectData);
-        Log.d("data sub category", jsonObjectResponse.toString());
+
         try {
+            JSONParser jsonParser = new JSONParser();
+            List<NameValuePair> jsonObjectData = new ArrayList();
+            jsonObjectData.add(new BasicNameValuePair("orderId", AppConfig.orderId));
+            jsonObjectData.add(new BasicNameValuePair("tableId", AppConfig.tableId_selected));
+            jsonObjectData.add(new BasicNameValuePair("userId", AppConfig.userId));
+            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.checkout_cart, HttpGet.METHOD_NAME, jsonObjectData);
+            Log.d("data sub category", jsonObjectResponse.toString());
+
             int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
             this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
             if (success == 1) {

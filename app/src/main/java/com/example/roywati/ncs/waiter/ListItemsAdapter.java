@@ -19,6 +19,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -37,7 +39,7 @@ public class ListItemsAdapter extends BaseAdapter {
 
     public class AddItemToCart extends AsyncTask<String, String, String> {
         String TAG_MESSAGE = "message";
-        String TAG_SUCCESS = "success";
+        String TAG_SUCCESS = "error";
         String serverMessage = "request not sent";
         int successState = 0;
 
@@ -47,20 +49,22 @@ public class ListItemsAdapter extends BaseAdapter {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("menu_item_id", AppConfig.menuCatId));
-            jsonObjectData.add(new BasicNameValuePair("orderId", AppConfig.orderId));
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.add_to_cart, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("orderId and menuCatId", AppConfig.orderId + " " + AppConfig.menuCatId);
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("menu_item_id", AppConfig.menuCatId));
+                jsonObjectData.add(new BasicNameValuePair("orderId", AppConfig.orderId));
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.add_to_cart, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("orderId and menuCatId", AppConfig.orderId + " " + AppConfig.menuCatId);
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 if (success == 1) {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+              successState=500;
             }
             return null;
         }
@@ -69,7 +73,9 @@ public class ListItemsAdapter extends BaseAdapter {
             super.onPostExecute(s);
             Log.d("successState", String.valueOf(this.successState));
             if (this.successState == 1) {
-                Toast.makeText(ListItemsAdapter.this.context, this.serverMessage, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(ListItemsAdapter.this.context, this.serverMessage, Toast.LENGTH_SHORT).show();
+            }else if(successState==500){
+                Toast.makeText(context, "Network Error!!", 1).show();
             } else {
                 Toast.makeText(ListItemsAdapter.this.context, this.serverMessage, Toast.LENGTH_SHORT).show();
             }

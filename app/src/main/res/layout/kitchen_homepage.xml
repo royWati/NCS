@@ -5,8 +5,8 @@
     android:background="@color/colorPrimary">
 
     <GridView
-        android:layout_height="fill_parent"
-        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:id="@+id/homepage_kitchen_gridview"
         android:verticalSpacing="10dp"
         android:stretchMode="columnWidth"
@@ -17,7 +17,7 @@
         android:layout_margin="10dp"/>
 
     <Button
-        android:background="#c4452c"
+        android:background="#da522d"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="LOGOUT"

@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
 import com.example.roywati.ncs.waiter.AppConfig;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class cashierViewOrders extends AppCompatActivity {
@@ -41,12 +43,14 @@ public class cashierViewOrders extends AppCompatActivity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigCashier.get_unpaid_orders, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data", jsonObjectResponse.toString());
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigCashier.get_unpaid_orders, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data", jsonObjectResponse.toString());
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 this.unpaidOrder = jsonObjectResponse.getJSONArray("unpaid_orders");
@@ -64,8 +68,11 @@ public class cashierViewOrders extends AppCompatActivity {
                 if (success == 1) {
                     this.successState = 1;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (NullPointerException e) {
+              successState=500;
+            }
+            catch (JSONException e) {
+                successState=500;
             }
             return null;
         }
@@ -81,7 +88,11 @@ public class cashierViewOrders extends AppCompatActivity {
                         cashierViewOrders.this.startActivity(new Intent(cashierViewOrders.this, MakePayment.class));
                     }
                 });
-            } else {
+            }else if(successState==500){
+                    Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
+            }
+
+            else {
                 cashierViewOrders.this.textView.setVisibility(0);
                 Toast.makeText(cashierViewOrders.this.getApplicationContext(), this.serverMessage, 1).show();
             }

@@ -1,7 +1,9 @@
 package com.example.roywati.ncs.waiter;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -50,5 +52,26 @@ public class Homepage extends AppCompatActivity {
                 Homepage.this.startActivity(intent);
             }
         });
+    }
+
+    public void onBackPressed(){
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+
+        alertDialog.setMessage((CharSequence) "You will be logged out!!");
+        alertDialog.setPositiveButton((CharSequence) "Yes", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent = new Intent(Homepage.this, LoginActivity.class);
+                startActivity(intent);
+
+                finish();
+            }
+        });
+        alertDialog.setNegativeButton((CharSequence) "No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        alertDialog.show();
+
     }
 }

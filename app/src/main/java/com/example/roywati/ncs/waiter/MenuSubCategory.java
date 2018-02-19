@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -41,12 +43,14 @@ public class MenuSubCategory extends AppCompatActivity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("menu_category_id", AppConfig.menuCatId));
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.get_menu_subcategory_url, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data", jsonObjectResponse.toString());
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("menu_category_id", AppConfig.menuCatId));
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.get_menu_subcategory_url, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data", jsonObjectResponse.toString());
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 this.menuSubCategory = jsonObjectResponse.getJSONArray("Menu_category_submenu");
@@ -65,7 +69,7 @@ public class MenuSubCategory extends AppCompatActivity {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                successState=500;
             }
             return null;
         }
@@ -79,10 +83,12 @@ public class MenuSubCategory extends AppCompatActivity {
                         AppConfig.menuSubCatId = ((TextView) view.findViewById(R.id.subCategoryMenuId)).getText().toString();
                         AppConfig.sub_menu_title = ((TextView) view.findViewById(R.id.subCategoryMenuName)).getText().toString();
                         new getSubMenuItem().execute(new String[0]);
-                        Toast.makeText(MenuSubCategory.this.getApplicationContext(), AppConfig.menuSubCatId, 1).show();
+                    //    Toast.makeText(MenuSubCategory.this.getApplicationContext(), AppConfig.menuSubCatId, 1).show();
                     }
                 });
-                Toast.makeText(MenuSubCategory.this.getApplicationContext(), this.serverMessage + AppConfig.orderId, 0).show();
+              //  Toast.makeText(MenuSubCategory.this.getApplicationContext(), this.serverMessage + AppConfig.orderId, 0).show();
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             } else {
                 Toast.makeText(MenuSubCategory.this.getApplicationContext(), this.serverMessage, 1).show();
             }
@@ -152,7 +158,7 @@ public class MenuSubCategory extends AppCompatActivity {
                     this.successState = 2;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                successState=500;
             }
             return null;
         }
@@ -162,10 +168,12 @@ public class MenuSubCategory extends AppCompatActivity {
             Log.d("successState", String.valueOf(this.successState));
             if (this.successState == 1) {
                 MenuSubCategory.this.startActivity(new Intent(MenuSubCategory.this, SubMenuItems.class));
-                Toast.makeText(MenuSubCategory.this.getApplicationContext(), this.serverMessage, 1).show();
+               // Toast.makeText(MenuSubCategory.this.getApplicationContext(), this.serverMessage, 1).show();
             } else if (this.successState == 2) {
                 MenuSubCategory.this.startActivity(new Intent(MenuSubCategory.this, MenuItems.class));
-                Toast.makeText(MenuSubCategory.this.getApplicationContext(), this.serverMessage, 1).show();
+              //  Toast.makeText(MenuSubCategory.this.getApplicationContext(), this.serverMessage, 1).show();
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             } else {
                 Toast.makeText(MenuSubCategory.this.getApplicationContext(), this.serverMessage, 1).show();
             }

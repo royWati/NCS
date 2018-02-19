@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -38,12 +40,14 @@ public class AddOns extends AppCompatActivity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("userId", AppConfig.userId));
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.add_ons, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data", jsonObjectResponse.toString());
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("userId", AppConfig.userId));
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.add_ons, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data", jsonObjectResponse.toString());
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 this.add_ons_orders = jsonObjectResponse.getJSONArray("orders");
@@ -65,7 +69,7 @@ public class AddOns extends AppCompatActivity {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+               successState=500;
             }
             return null;
         }
@@ -79,13 +83,15 @@ public class AddOns extends AppCompatActivity {
                         AppConfig.orderId = ((TextView) view.findViewById(R.id.order_no_selected)).getText().toString();
                         AppConfig.add_on_event = true;
                         AddOns.this.startActivity(new Intent(AddOns.this, AddOnMenuCategory.class));
-                        Toast.makeText(AddOns.this.getApplicationContext(), AppConfig.orderId, 0).show();
+
                     }
                 });
                 Log.d("new order", AppConfig.orderId);
                 return;
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             }
-            Toast.makeText(AddOns.this.getApplicationContext(), this.serverMessage, 1).show();
+
         }
     }
 

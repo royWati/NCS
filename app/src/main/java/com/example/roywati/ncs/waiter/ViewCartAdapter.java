@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
+
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
@@ -43,20 +45,22 @@ public class ViewCartAdapter extends BaseAdapter {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("order_item_id", AppConfig.delete_cart_item));
-            Log.d("menuSubCatId", AppConfig.orderId);
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.delete_cart, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data sub category", jsonObjectResponse.toString());
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("order_item_id", AppConfig.delete_cart_item));
+                Log.d("menuSubCatId", AppConfig.orderId);
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfig.delete_cart, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data sub category", jsonObjectResponse.toString());
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 if (success == 1) {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                successState=500;
             }
             return null;
         }
@@ -68,8 +72,10 @@ public class ViewCartAdapter extends BaseAdapter {
                 Intent intent = new Intent(ViewCartAdapter.this.context.getApplicationContext(), ViewCart.class);
                 intent.setFlags(32768);
                 ViewCartAdapter.this.context.startActivity(intent);
-                Toast.makeText(ViewCartAdapter.this.context, this.serverMessage, 1).show();
+              //  Toast.makeText(ViewCartAdapter.this.context, this.serverMessage, 1).show();
                 return;
+            }else if(successState==500){
+                Toast.makeText(context, "Network Error!!", 1).show();
             }
             Toast.makeText(ViewCartAdapter.this.context, this.serverMessage, 1).show();
         }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
 import com.example.roywati.ncs.waiter.AppConfig;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,14 +43,16 @@ public class KitchenMenuItems extends AppCompatActivity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("homepageId", AppConfigKitchen.homepageId));
-            jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
-            Log.d("kitchen homepage id", AppConfigKitchen.homepageId);
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigKitchen.get_process, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data sub category", jsonObjectResponse.toString());
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("homepageId", AppConfigKitchen.homepageId));
+                jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
+                Log.d("kitchen homepage id", AppConfigKitchen.homepageId);
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigKitchen.get_process, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data sub category", jsonObjectResponse.toString());
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 this.order_status = jsonObjectResponse.getJSONArray("order_status");
@@ -66,7 +70,8 @@ public class KitchenMenuItems extends AppCompatActivity {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+               successState=500;
+
             }
             return null;
         }
@@ -110,8 +115,10 @@ public class KitchenMenuItems extends AppCompatActivity {
                         }
                     });
                 }
-                Toast.makeText(KitchenMenuItems.this.getApplicationContext(), this.serverMessage, 1).show();
+             ///   Toast.makeText(KitchenMenuItems.this.getApplicationContext(), this.serverMessage, 1).show();
                 return;
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             }
             Toast.makeText(KitchenMenuItems.this.getApplicationContext(), this.serverMessage, 1).show();
         }
@@ -125,6 +132,8 @@ public class KitchenMenuItems extends AppCompatActivity {
         new ViewOrderStatusType().execute(new String[0]);
         this.bar = (ProgressBar) findViewById(R.id.progressBar);
         this.rela = (RelativeLayout) findViewById(R.id.relativeLayout);
+
+
     }
 
     public void showProgress(boolean state) {

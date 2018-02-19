@@ -55,7 +55,6 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".kitchen.KitchenHomePage"
-            android:noHistory="true"
             android:screenOrientation="portrait"/>
         <activity android:name=".kitchen.KitchenMenuItems"
             android:label="Kitchen Menu Items"

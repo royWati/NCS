@@ -94,17 +94,18 @@ public class LoginActivity extends AppCompatActivity {
             super.onPostExecute(s);
             if (this.successState == 1) {
                 LoginActivity.this.startActivity(new Intent(LoginActivity.this, Homepage.class));
-                Toast.makeText(LoginActivity.this.getApplicationContext(), AppConfig.userId, 1).show();
+               // Toast.makeText(LoginActivity.this.getApplicationContext(), AppConfig.userId, 1).show();
             } else if (this.successState == 2) {
                 LoginActivity.this.startActivity(new Intent(LoginActivity.this, KitchenHomePage.class));
-                Toast.makeText(LoginActivity.this.getApplicationContext(), AppConfig.userId, 1).show();
+               // Toast.makeText(LoginActivity.this.getApplicationContext(), AppConfig.userId, 1).show();
             } else if (this.successState == 3) {
                 LoginActivity.this.startActivity(new Intent(LoginActivity.this, CashierHomepage.class));
-                Toast.makeText(LoginActivity.this.getApplicationContext(), AppConfig.userId, 1).show();
+               // Toast.makeText(LoginActivity.this.getApplicationContext(), AppConfig.userId, 1).show();
             } else {
                 Toast.makeText(LoginActivity.this.getApplicationContext(), this.serverMessage, 1).show();
             }
             LoginActivity.this.showBar(false);
+            finish();
         }
     }
 

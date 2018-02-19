@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
 import com.example.roywati.ncs.defaults.JSONParser;
+import com.example.roywati.ncs.defaults.NoDataException;
 import com.example.roywati.ncs.defaults.PrintActivity;
 import com.example.roywati.ncs.defaults.PrintData;
 import com.example.roywati.ncs.waiter.AppConfig;
@@ -43,12 +44,15 @@ public class GenerateBill extends AppCompatActivity {
         }
 
         protected String doInBackground(String... strings) {
-            JSONParser jsonParser = new JSONParser();
-            List<NameValuePair> jsonObjectData = new ArrayList();
-            jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
-            JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigCashier.generate_bill, HttpGet.METHOD_NAME, jsonObjectData);
-            Log.d("data", jsonObjectResponse.toString());
+
             try {
+                JSONParser jsonParser = new JSONParser();
+                List<NameValuePair> jsonObjectData = new ArrayList();
+                jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigCashier.generate_bill, HttpGet.METHOD_NAME, jsonObjectData);
+                Log.d("data", jsonObjectResponse.toString());
+
+
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
                 this.serverMessage = jsonObjectResponse.getString(this.TAG_MESSAGE);
                 AppConfigCashier.total = jsonObjectResponse.getString("total");
@@ -68,7 +72,7 @@ public class GenerateBill extends AppCompatActivity {
                     this.successState = 1;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                successState=500;
             }
             return null;
         }
@@ -82,10 +86,12 @@ public class GenerateBill extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                         AppConfigCashier.orderNumber = ((TextView) view.findViewById(R.id.order_num_cash)).getText().toString();
                         PrintData.print_data_id = 2;
-                        Toast.makeText(GenerateBill.this.getApplicationContext(), AppConfigCashier.orderNumber, 0).show();
+                    //    Toast.makeText(GenerateBill.this.getApplicationContext(), AppConfigCashier.orderNumber, 0).show();
                         GenerateBill.this.startActivity(new Intent(GenerateBill.this, PrintActivity.class));
                     }
                 });
+            }else if(successState==500){
+                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             } else {
                 Toast.makeText(GenerateBill.this.getApplicationContext(), this.serverMessage, 1).show();
             }
