@@ -16,7 +16,7 @@ public class AppConfigKitchen {
     public static String selectedKitchenOrder = "";
     public static String selectedOrder = "";
     public static String[] tables;
-    public static String titleProcess = "";
+    public static String titleProcess = "Pending Orders";
     public static String userId = "";
     public static String view_selected_order = "view-kitchen-order-item.php";
 }

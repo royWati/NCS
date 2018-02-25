@@ -147,7 +147,10 @@ public class PrintActivity extends AppCompatActivity {
                     PrintData.BranchName = js.getString("branch_name");
                     PrintData.CashierName = js.getString("name");
                     PrintData.CashoutTime = js.getString("cashout_time");
-                    PrintData.ChangeGiven = String.valueOf(Integer.parseInt(PrintData.TenderedAmount) - Integer.parseInt(PrintData.printSale));
+                    PrintData.ChangeGiven = String.valueOf(Integer.parseInt(PrintData.TenderedAmount) -
+                            Integer.parseInt(PrintData.printSale));
+
+
                     for (i = 0; i < this.receipt_items.length(); i++) {
                         jsonObject = this.receipt_items.getJSONObject(i);
                         Log.d("receipts items", jsonObject.toString());
@@ -363,7 +366,10 @@ public class PrintActivity extends AppCompatActivity {
                 msg = "       \u0002Nagalas Chakula \n       \u0002Branch :\t\t" + PrintData.BranchName + "\t\n" + "       \u0002Order id:" + order + "\n       \u0002" + timeOf + "\n\n\n";
             } else {
                 msg = "       \u0002Nagalas Chakula \n       \u0002Branch :\t\t" + PrintData.BranchName + "\t\n" + "       \u0002Order id:" + order + "\n       \u0002" + PrintData.CashoutTime + "\n\n\n";
-                Amounts = "Tendered Amount:     \u0002" + PrintData.TenderedAmount + ".00/=\n" + "Cash Sale:            \u0002" + PrintData.printSale + ".00/=\n" + "Change:               \u0002" + PrintData.ChangeGiven + ".00/=\n\nServed by:\u0002" + PrintData.CashierName + "\n\nTHANK YOU\n\nTILL NO: 263664\n\n\n";
+                Amounts = "Tendered Amount:     \u0002" + PrintData.TenderedAmount + ".00/=\n" + "Cash Sale:            \u0002" + String.valueOf(Integer.parseInt(PrintData.printSale+AppConfigCashier.order_discount_am)) + ".00/=\n"+
+                        "Discount("+String.valueOf(AppConfigCashier.order_discount_perce)+"%):            \u0002" + AppConfigCashier.order_discount_am + ".00/=\n" +
+                        "Grand Total:            \u0002" + PrintData.printSale + ".00/=\n" +
+                        "Change:               \u0002" + PrintData.ChangeGiven + ".00/=\n\nServed by:\u0002" + PrintData.CashierName + "\n\nTHANK YOU\n\nTILL NO: 263664\n\n\n";
             }
             this.mmOutputStream.write((msg + this.header + str2 + "\n" + Amounts).getBytes());
             this.myLabel.setText("Data sent.");

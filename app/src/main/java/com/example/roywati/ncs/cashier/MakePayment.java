@@ -1,14 +1,22 @@
 package com.example.roywati.ncs.cashier;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.example.roywati.ncs.R;
@@ -17,12 +25,21 @@ import com.example.roywati.ncs.defaults.NoDataException;
 import com.example.roywati.ncs.defaults.PrintActivity;
 import com.example.roywati.ncs.defaults.PrintData;
 import com.example.roywati.ncs.waiter.AppConfig;
+
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONObject;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
 
 public class MakePayment extends AppCompatActivity {
     TextView amountGiven;
@@ -31,9 +48,12 @@ public class MakePayment extends AppCompatActivity {
     TextView changeDue;
     EditText edit_text;
     TextView orderid;
-    TextView totalAmount;
+    TextView totalAmount,discount_amount;
     TextView wrongPayment;
 
+   // RelativeLayout rela_disc;
+
+    FloatingActionButton fab_dis;
     public class updatePayment extends AsyncTask<String, String, String> {
         String TAG_MESSAGE = "message";
         String TAG_SUCCESS = "success";
@@ -80,7 +100,7 @@ public class MakePayment extends AppCompatActivity {
                 MakePayment.this.startActivity(new Intent(MakePayment.this, PrintActivity.class));
                 return;
             }else if(successState==500){
-                Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
+             //   Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             }
             Toast.makeText(MakePayment.this, this.serverMessage, 1).show();
         }
@@ -99,11 +119,25 @@ public class MakePayment extends AppCompatActivity {
         this.button = (Button) findViewById(R.id.makePayment);
         this.orderid.setText(AppConfigCashier.orderNumber);
         this.totalAmount.setText(AppConfigCashier.amount);
+        fab_dis=findViewById(R.id.discount_load);
+
+        discount_amount=findViewById(R.id.discount_amount_val);
+    //    rela_disc=findViewById(R.id.linear_discounts);
+
+
+
+       fab_dis.setVisibility(View.GONE);
+
+
         this.button.setOnClickListener(new OnClickListener() {
             public void onClick(View view) {
+
+                AppConfigCashier.amount=totalAmount.getText().toString();
+
                 MakePayment.this.amountGivenToCashier = MakePayment.this.edit_text.getText().toString();
                 AppConfigCashier.amountGivenToCashier = MakePayment.this.amountGivenToCashier;
-                AppConfigCashier.changeAmount = Integer.parseInt(MakePayment.this.amountGivenToCashier) - Integer.parseInt(AppConfigCashier.amount);
+                AppConfigCashier.changeAmount = Integer.parseInt(MakePayment.this.amountGivenToCashier) -
+                        Integer.parseInt(AppConfigCashier.amount);
                 MakePayment.this.amountGiven.setText(MakePayment.this.amountGivenToCashier);
                 MakePayment.this.changeDue.setText(String.valueOf(AppConfigCashier.changeAmount));
                 if (AppConfigCashier.changeAmount > 0 || AppConfigCashier.changeAmount == 0) {
@@ -114,4 +148,6 @@ public class MakePayment extends AppCompatActivity {
             }
         });
     }
+
+
 }

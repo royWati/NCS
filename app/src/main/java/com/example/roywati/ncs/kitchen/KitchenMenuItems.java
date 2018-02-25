@@ -82,33 +82,36 @@ public class KitchenMenuItems extends AppCompatActivity {
             if (this.successState == 1) {
                 AppConfigKitchen.num = Integer.parseInt(AppConfigKitchen.homepageId);
                 if (AppConfigKitchen.num == 5) {
+                    AppConfigKitchen.titleProcess = "pending items";
                     KitchenMenuItems.this.gridView.setAdapter(new PendingAdapter(KitchenMenuItems.this, AppConfigKitchen.orders, AppConfigKitchen.tables));
                     KitchenMenuItems.this.gridView.setOnItemClickListener(new OnItemClickListener() {
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             TextView txt = (TextView) view.findViewById(R.id.order_item_no_pending);
-                            AppConfigKitchen.titleProcess = "pending items";
+
                             AppConfigKitchen.selectedKitchenOrder = txt.getText().toString();
                             Log.d("selected order item: ", AppConfigKitchen.selectedKitchenOrder);
                             KitchenMenuItems.this.startActivity(new Intent(KitchenMenuItems.this, MenuItemState.class));
                         }
                     });
                 } else if (AppConfigKitchen.num == 6) {
+                    AppConfigKitchen.titleProcess = "Processing items";
                     KitchenMenuItems.this.gridView.setAdapter(new ProcessingAdapter(KitchenMenuItems.this, AppConfigKitchen.orders, AppConfigKitchen.tables));
                     KitchenMenuItems.this.gridView.setOnItemClickListener(new OnItemClickListener() {
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             TextView txt = (TextView) view.findViewById(R.id.order_item_id);
-                            AppConfigKitchen.titleProcess = "Processing items";
+
                             AppConfigKitchen.selectedKitchenOrder = txt.getText().toString();
                             Log.d("selected order item: ", AppConfigKitchen.selectedKitchenOrder);
                             KitchenMenuItems.this.startActivity(new Intent(KitchenMenuItems.this, MenuItemState.class));
                         }
                     });
                 } else if (AppConfigKitchen.num == 7) {
+                    AppConfigKitchen.titleProcess = "Processed items";
                     KitchenMenuItems.this.gridView.setAdapter(new ProcessedAdapter(KitchenMenuItems.this, AppConfigKitchen.orders, AppConfigKitchen.tables));
                     KitchenMenuItems.this.gridView.setOnItemClickListener(new OnItemClickListener() {
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             TextView txt = (TextView) view.findViewById(R.id.order_item);
-                            AppConfigKitchen.titleProcess = "Processed items";
+
                             AppConfigKitchen.selectedKitchenOrder = txt.getText().toString();
                             Log.d("selected order item: ", AppConfigKitchen.selectedKitchenOrder);
                             KitchenMenuItems.this.startActivity(new Intent(KitchenMenuItems.this, MenuItemState.class));

@@ -32,7 +32,17 @@ public class KitchenHomePage extends AppCompatActivity {
         this.gridView.setAdapter(new HomepageAdapter(this, AppConfig.menuItemId, AppConfig.menuItemName));
         this.gridView.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
                 AppConfigKitchen.homepageId = ((TextView) view.findViewById(R.id.kitchen_homepage_id)).getText().toString();
+
+                if (AppConfigKitchen.homepageId.equals("5")){
+                    AppConfigKitchen.titleProcess = "pending Orders";
+                }else if(AppConfigKitchen.homepageId.equals("6")) {
+                    AppConfigKitchen.titleProcess = "Processing Orders";
+                }else if( AppConfigKitchen.homepageId.equals("7")){
+                    AppConfigKitchen.titleProcess = "Processed Orders";
+                }
                 KitchenHomePage.this.startActivity(new Intent(KitchenHomePage.this, KitchenMenuItems.class));
              //   Toast.makeText(KitchenHomePage.this.getApplicationContext(), AppConfigKitchen.homepageId + "  " + AppConfigKitchen.userId, 1).show();
             }
