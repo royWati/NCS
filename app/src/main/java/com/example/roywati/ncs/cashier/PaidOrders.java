@@ -103,7 +103,7 @@ public class PaidOrders extends AppCompatActivity {
             }else if(successState==500){
                 Toast.makeText(getApplicationContext(), "Network Error!!", 1).show();
             } else {
-                Toast.makeText(PaidOrders.this.getApplicationContext(), this.serverMessage, 1).show();
+                 Toast.makeText(PaidOrders.this.getApplicationContext(), this.serverMessage, 1).show();
             }
             PaidOrders.this.showProgress(false);
         }
