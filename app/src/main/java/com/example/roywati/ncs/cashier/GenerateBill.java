@@ -207,10 +207,14 @@ public class GenerateBill extends AppCompatActivity {
                 int pos= (int) parent.getItemIdAtPosition(position);
              //   discountCalc(AppConfigCashier.discount_value[pos],pricePosition);
 
+
+
+                Log.d("position of price index",String.valueOf(pos));
+
                 discounted_value=AppConfigCashier.discount_value[pos];
                 AppConfigCashier.order_discount_perce=AppConfigCashier.discount_value[pos];
 
-                discountCalc(AppConfigCashier.order_discount_perce,pos);
+                discountCalc(AppConfigCashier.order_discount_perce,pricePosition);
                 new post_amount().execute();
 
             }
