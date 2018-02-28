@@ -129,4 +129,6 @@ public class cashierViewOrders extends AppCompatActivity {
         this.bar.setVisibility(8);
         this.listView.setVisibility(0);
     }
+
+
 }

@@ -48,7 +48,8 @@ public class PaidOrders extends AppCompatActivity {
                 JSONParser jsonParser = new JSONParser();
                 List<NameValuePair> jsonObjectData = new ArrayList();
                 jsonObjectData.add(new BasicNameValuePair("branchId", AppConfig.branchId));
-                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname + AppConfigCashier.get_paid_orders, HttpGet.METHOD_NAME, jsonObjectData);
+                JSONObject jsonObjectResponse = jsonParser.makeHttpRequest(AppConfig.protocal + AppConfig.hostname +
+                        AppConfigCashier.get_paid_orders, HttpGet.METHOD_NAME, jsonObjectData);
                 Log.d("data", jsonObjectResponse.toString());
 
                 int success = jsonObjectResponse.getInt(this.TAG_SUCCESS);
@@ -58,11 +59,18 @@ public class PaidOrders extends AppCompatActivity {
                 Log.d("data", AppConfig.orderId);
                 AppConfigCashier.order_id = new String[this.unpaidOrder.length()];
                 AppConfigCashier.price = new String[this.unpaidOrder.length()];
+                AppConfigCashier.order_discount_amount = new String[this.unpaidOrder.length()];
+                AppConfigCashier.order_discount_percentage = new String[this.unpaidOrder.length()];
+
                 for (int i = 0; i < this.unpaidOrder.length(); i++) {
                     JSONObject jsonObject = this.unpaidOrder.getJSONObject(i);
                     Log.d("menu category", jsonObject.toString());
                     AppConfigCashier.order_id[i] = jsonObject.getString("order_id");
                     AppConfigCashier.price[i] = jsonObject.getString("sum");
+
+                    AppConfigCashier.order_discount_percentage[i] = jsonObject.getString("discount_percentage");
+                    AppConfigCashier.order_discount_amount[i] = jsonObject.getString("discount_amount");
+
                     Log.d("kit-menu id", AppConfigCashier.order_id[i]);
                     Log.d("kit-menu name", AppConfigCashier.price[i]);
                 }
@@ -82,6 +90,12 @@ public class PaidOrders extends AppCompatActivity {
                 PaidOrders.this.listView.setAdapter(new PaidOrdersAdapter(PaidOrders.this, AppConfigCashier.order_id, AppConfigCashier.price));
                 PaidOrders.this.listView.setOnItemClickListener(new OnItemClickListener() {
                     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                        int pos= (int) adapterView.getItemIdAtPosition(i);
+
+                        AppConfigCashier.order_discount_am=AppConfigCashier.order_discount_amount[pos];
+                        AppConfigCashier.order_discount_perce=AppConfigCashier.order_discount_percentage[pos];
+
                         AppConfigCashier.orderNumber = ((TextView) view.findViewById(R.id.order_num_cash)).getText().toString();
                         PaidOrders.this.startActivity(new Intent(PaidOrders.this, PrintActivity.class));
                     }
